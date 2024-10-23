@@ -1,13 +1,20 @@
-import React from 'react'
+import React from "react";
+import { onAuthenticateUser } from "../actions/user";
+import { redirect } from "next/navigation";
 
-type Props = {}
+type Props = {};
 
-const DashboardPage = (props: Props) => {
-    // Authentication
+const DashboardPage = async (props: Props) => {
+  // Authentication
+  const auth = await onAuthenticateUser();
+  if (auth.status === 200 || auth.status === 201) {
+    return redirect(`/dashboard/${auth.user?.workspace[0].id}`);
+  }
 
-    // if account doesnt exist
-  return (
-    <div>DashboardPage</div>
-  )
-}
+  if (auth.status === 400 || auth.status === 500 || auth.status === 404) {
+    return redirect("/auth/sign-in");
+  }
+  // if account doesnt exist
+  return <div>DashboardPage</div>;
+};
 export default DashboardPage;

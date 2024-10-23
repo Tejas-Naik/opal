@@ -1,7 +1,7 @@
 "use server";
 
 import { client } from "@/lib/prisma";
-import { clerkClient, currentUser } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 
 export const onAuthenticateUser = async () => {
   try {
@@ -66,7 +66,7 @@ export const onAuthenticateUser = async () => {
     });
 
     if (newUser){
-        return { status: 200, user: newUser }
+        return { status: 201, user: newUser }
     } 
     return {status: 400}
   } catch (error) {
